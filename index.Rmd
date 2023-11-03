@@ -54,3 +54,6 @@ ggplot(aes(x =  minority_chance,
 minorityrep_scatter
 ```
 
+This graph looks into three variables total. The dependent variable in this case is the probability of a minority representative being elected based on a districts PVI. The independent variable would be the Cook Partisan Voting Index (PVI) of each district, which tells us whether a district leans democratic or republican. The third variable being looked at is the color coding of all points in the graph by the variable "dem_chance". This variable color codes all points on the graph based on the probability of the district electing a democrat. 
+
+Therefore this graph shows us the districts PVI, their likelihood to elect a democrat and their likelihood of voting for a minority representative for the district. What we can see based on the data is that a low PVI is connected to a low probability of a district electing a minority rep -- we also see a lower probability within these districts to elect democrats. Similarly, when we see a higher probability of a district electing a minority representative, we can see that there is a higher PVI and a higher chance of electing a democratic representative. 
