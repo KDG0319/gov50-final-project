@@ -30,6 +30,8 @@ Does racial composition in a district impact the Cook Partisan Voting Index (PVI
 
 ## Data Visualization
 
+Milestone #3
+
 ```{r}
 library(tidyverse)
 library(ggplot2)
