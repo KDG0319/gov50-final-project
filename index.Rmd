@@ -26,7 +26,7 @@ Milestone #2
 
 The data set for this project was taken from a previous analysis completed on FiveThirtyEight by Aaron Bycoffe, Ella Koeza, David Wasserman, and Julia Wolfe. Their project, "The Atlas of Redistricting", specifically looked at the redrawing of U.S congressional maps to see the shifts that happen in partisan and racial makeups. The data is set for 2010 and contains factors such as State voting populations based on race, the Cook Partisan Voting Index, the number of districts in the state, and more. 
 
-Does racial composition in a district impact the Cook Partisan Voting Index (PVI) -- and how does this Index vary across districts with different dominant racial groups? In my analysis I will be focusing on the "Majority Minority Map", to better focus on racial minority voting tendencies. Since race can influence someone's voting tendencies due to different approaches parties take on racial topics, I hypothesize that the "Majority Minority" map will show how districts with different dominant racial groups can lean towards different parties -- this could be explained by the different challenges they face in the U.S and how these challenges influence their voting patterns. In this case, my explanatory variable will be race -- it will mostly be compared between individuals of "minority" races in the United States (Black, Hispanic, Asian, Native American, Pacific Islander, and Other). Each racial variable is measured by the percentage of the districts' 2010 voting-age population, and to compare them, the data can be filtered to focus on a particular racial group. On the other hand, my outcome variable will be the districts' leaning toward one party, measured through the PVI -- this will also be filtered depending on race. To support my hypothesis I would have to see different political leanings across racial groups. However, if they all appear to lean towards the same party, then my hypothesis would be fully disproved. 
+Does racial composition in a district impact the Cook Partisan Voting Index (PVI) -- and how do different racial groups vote towards democrats and minority representatives? In my analysis I will be focusing on the "Current Map", to better focus on the current state of racial minority voting tendencies. Since race can influence someone's voting tendencies due to different approaches parties take on racial topics, I hypothesize that the "Current" map will show how districts with different dominant racial groups can lean towards different parties in current politics with the current district divides in place -- this could be explained by the different challenges they face in the U.S and how these challenges influence their voting patterns. In this case, my explanatory variable will be race -- it will mostly be compared between individuals of "minority" races in the United States (Black, Hispanic, Asian, Native American, Pacific Islander, and Other). Each racial variable is measured by the percentage of the districts' 2010 voting-age population, and to compare them, the data can be filtered to focus on a particular racial group. On the other hand, my outcome variable will be the districts' leaning toward one party, measured through the PVI -- this will also be filtered depending on race. To support my hypothesis I would have to see different political leanings across racial groups. However, if they all appear to lean towards the same party, then my hypothesis would be fully disproved. 
 
 ## Data Visualization
 
@@ -49,7 +49,7 @@ ggplot(aes(x =  minority_chance,
            color = dem_chance)) + 
          geom_point() +
   labs(title = "Probability of a Minority Representative being Elected based on PVI", 
-       subtitle = "Color Coded by Probability of District Electing a Democrat",
+       subtitle = "Color Coded by Probability of District Electing a Democrat (ALL MAP TYPES INCLUDED)",
        x = "Probability of District Electing a Minority Rep", 
        y = "Cook Partisan Voting Index (PVI)")
 
@@ -59,3 +59,37 @@ minorityrep_scatter
 This graph looks into three variables total. The dependent variable in this case is the probability of a minority representative being elected based on a districts PVI. The independent variable would be the Cook Partisan Voting Index (PVI) of each district, which tells us whether a district leans democratic or republican. The third variable being looked at is the color coding of all points in the graph by the variable "dem_chance". This variable color codes all points on the graph based on the probability of the district electing a democrat. 
 
 Therefore this graph shows us the districts PVI, their likelihood to elect a democrat and their likelihood of voting for a minority representative for the district. What we can see based on the data is that a low PVI is connected to a low probability of a district electing a minority rep -- we also see a lower probability within these districts to elect democrats. Similarly, when we see a higher probability of a district electing a minority representative, we can see that there is a higher PVI and a higher chance of electing a democratic representative. 
+
+
+## Results from Analysis
+
+Milestone #4
+
+```{r}
+library(infer)
+set.seed(02138)
+
+tibble_50 <- districts |>
+  filter(maptype == "current") |>
+  rep_slice_sample(n = 50, reps = 100) |>
+  group_by(race_category) |>
+summarize(PVI_mean = mean(PVI, na.rm = TRUE), 
+          dem_chance_mean = mean(dem_chance, na.rm = TRUE), 
+          minority_chance_mean = mean(minority_chance, na.rm = TRUE))
+
+tibble_50 |>
+   knitr::kable(digits = 2, col.names = c("Dominant Racial Group", 
+                                          "Cook Partisan Voting Index", 
+                                          "Ave. Chance of Electing Democrat", 
+                                          "Ave. Chance of Electing Minority Rep"))
+```
+
+
+My research question for this project was "Does racial composition in a district impact the Cook Partisan Voting Index (PVI) -- and how do different racial groups vote towards democrats and minority representatives?". With the table presented above we are able to look at districts in the current version of district division maps across the United States. We are looking at districts considering the dominant racial group with the largest population. The table also provides us with the average Cook Partisan Voting Index (PVI), the average chance of electing a Democrat, and the average probability of each district electing a minority representative. We also looked at this data through a sample of 50 units with 100 reps. Ultimately, we are able to conclude from the above table that districts with a Majority African American population have the highest PVI, are the most likely to elect a Democrat, and the most likely to elect a minority representative. We can also see these statistics for Latino-prominent districts, Asian-prominent districts, and Coalition-prominent districts (other minority groups combined). Through the analysis of the means for all of these groups, we can see that most minority groups are relatively similar in numbers (however, we can analyze why the numbers do vary across these groups), while the districts that are the most different and show less likelihood to vote both democrat and for a minority representative are the ones with a Non-Hispanic White majority. We can clearly see that racial composition, specifically which racial groups is the most prominent, can have an effect on the overall voting patterns. 
+
+
+
+
+
+
+
